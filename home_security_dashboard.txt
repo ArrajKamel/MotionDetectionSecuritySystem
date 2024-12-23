@@ -2,16 +2,20 @@ Home Security Dashboard
 Components:
 
 Sharp 2D120x infrared distance sensor
-ESP8266 Wi-Fi module
+ESP32 Wi-Fi module + bluetooth module 
 NeoPixel LED Strips
-HC-05 Bluetooth module
 
 Description:
 Design a security system that monitors movement and alerts users:
 Use the Sharp 2D120x to detect movement or intrusion.
-Flash NeoPixel LEDs to indicate breaches visually.
-ESP8266 sends alerts to a mobile app or email.
-HC-05 allows for local configuration via Bluetooth if Wi-Fi is unavailable.
+The device count five second (using the internal timer in the esp32)  
+If no pin introduced then 
+	Flash NeoPixel LEDs to indicate breaches visually.
+If the pin introduced 
+	then the device will be set to the sleeping mode 
+
+ESP32 sends alerts to a mobile app or email + the ability of the home owner to stop the alarm (open the camera if it is added) 
 
 
 Optional integration with cameras for enhanced surveillance is possible as well
+
