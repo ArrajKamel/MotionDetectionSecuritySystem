@@ -69,8 +69,11 @@ The system is governed by a Finite State Machine with the following states:
 
 4. **SLEEP**:  
    - The system disables motion detection and alarms.  
-   - Transitions back to `IDLE` upon pressing the activation button.  
+   - Transitions back to `IDLE` upon pressing the activation button.
 
+## 📊 FSM Diagram
+
+![FSM Diagram](FSMDiagram.png)
 
 
 ---
