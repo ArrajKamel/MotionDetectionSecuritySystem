@@ -168,3 +168,10 @@ void handleActivationButton() {
   }
 }
 ```
+
+---
+
+## 📫 Let’s Collaborate
+
+Feel free to fork this repository or submit a pull request to improve or expand this project. Let’s build something great together!
+---
