@@ -1,0 +1,23 @@
+Home Security Dashboard
+Components:
+
+Sharp 2D120x infrared distance sensor
+ESP32 Wi-Fi module + bluetooth module 
+NeoPixel LED Strips
+PmodKYPD
+
+Program flow :
+
+the Sharp 2D120x infrared distance sensor is scanning :
+	1) The sharp sensor detects a moving (according to a range).
+	2) An internal timer will start.
+	3) The timer keeps counting as long as there is a moving in the specified range.
+	   The PmodKYPD is activated (it accepts input) as long as the timer is counting.
+	   The timer will stop and be set to 0 if that moving goes out of the range which leads to deactivate the PmodHYPD.
+		1) if somebody enter the correct password, the timer will stop and be set to 0, and the sharp sensors will be set on sleep mode until the owner activate it again.
+		2) if the timer reaches the tenth second, the alarm will start (red light is lighted) , and the owner receives a notification with the ability to stop the alarm.
+		   the alarm will stop by one of the following three cases :
+				1) the owner enter the correct password on the keyPad.
+				2) the owner stops the alarm from the received notification.
+				3) the alarm will stop automatically after 5 minutes.
+
