@@ -1,7 +1,7 @@
 # 🔐 Motion Detection Security System
 
 ## 📜 Overview  
-The **Motion Detection Security System** is an Arduino-based project designed to provide a robust and reliable security solution. It leverages a Sharp infrared sensor for motion detection, a 4x4 keypad for password authentication, and a Finite State Machine (FSM) to manage the system's behavior. The project is modular and scalable, making it suitable for real-world applications like home automation, IoT security, and industrial monitoring.
+The **Motion Detection Security System** is an Arduino-based project designed to provide a robust and reliable security solution. It leverages a Sharp infrared sensor for motion detection, a 4x4 keypad for password authentication, and a Finite State Machine (FSM) to manage the system's behavior. The project is modular and scalable, making it suitable for real-world applications like home automation, and IoT security.
 
 ---
 
@@ -22,32 +22,32 @@ The **Motion Detection Security System** is an Arduino-based project designed to
 1. **Arduino Mega**  
 2. **Sharp 2D120x Infrared Distance Sensor**  
 3. **4x4 Keypad**  
-4. **16x2 LCD with I2C Interface**  
+4. **16x2 LCD**  
 5. **Buzzer**  
 6. **Red LED**  
 7. **Push Button (Activation Toggle)**  
 
 ### Hardware Connections  
 1. **Sharp Sensor**:  
-   - Signal pin → `A0`  
-   - VCC → `5V`  
-   - GND → `GND`  
+   - Signal pin → `coming soon`  
+   - VCC → `coming soon`  
+   - GND → `coming soon`  
 
 2. **4x4 Keypad**:  
-   - Row pins → Digital pins `30, 31, 32, 33`  
-   - Column pins → Digital pins `34, 35, 36, 37`  
+   - Row pins → Digital pins `coming soon`  
+   - Column pins → Digital pins `coming soon`  
 
 3. **LCD with I2C**:  
-   - SDA → `20`  
-   - SCL → `21`  
+   - SDA → `coming soon`  
+   - SCL → `coming soon`  
 
 4. **Buzzer and LED**:  
-   - Buzzer pin → `D25`  
-   - LED pin → `D26`  
+   - Buzzer pin → `coming soon`  
+   - LED pin → `coming soon`  
 
 5. **Activation Button**:  
-   - One side → `D33`  
-   - Other side → `GND`  
+   - One side → `coming soon`  
+   - Other side → `coming soon`  
 
 ---
 
@@ -71,12 +71,32 @@ The system is governed by a Finite State Machine with the following states:
    - The system disables motion detection and alarms.  
    - Transitions back to `IDLE` upon pressing the activation button.  
 
+
+
+---
+
+### 🚀 Real-World Applications  
+
+This project can be applied to various domains, such as:  
+
+1. **Home Security**: Detect motion and secure the premises with alarms and authentication.  
+2. **IoT Devices**: Integrate with smart home systems for advanced automation.  
+3. **Industrial Monitoring**: Use the system to monitor unauthorized access in factories or warehouses.  
+
+---
+
+### 📈 Future Improvements  
+
+1. **WiFi Integration**: Add ESP32 capabilities to send notifications to a mobile app or email.  
+2. **Battery Optimization**: Implement low-power modes for energy-efficient operation.  
+3. **Camera Integration**: Add a camera module for capturing images upon motion detection.
+
 ---
 
 ## 🖥️ Software Implementation  
 
 ### Libraries Used  
-1. `LiquidCrystal_I2C.h`: For interfacing with the LCD.  
+1. `LiquidCrystal.h`: For interfacing with the LCD.  
 2. `Keypad.h`: For handling input from the 4x4 keypad.  
 
 ### FSM Implementation  
@@ -97,4 +117,51 @@ void checkMotion() {
     lcd.print("Motion Detected");
   }
 }
+```
+2. **Password Verification**  
+```cpp
+void handleKeypadInput() {
+  char key = keypad.getKey();
+  if (key) {
+    enteredPassword += key;
+    lcd.setCursor(0, 1);
+    lcd.print(enteredPassword);
 
+    if (enteredPassword.length() == correctPassword.length()) {
+      if (enteredPassword == correctPassword) {
+        currentState = SLEEP;
+        enterSleepMode();
+      } else {
+        lcd.print("Wrong Password");
+        delay(2000);
+        enteredPassword = "";
+      }
+    }
+  }
+}
+```
+
+3. **Sleep Mode Activation**
+```cpp
+void enterSleepMode() {
+  lcd.clear();
+  lcd.print("Entering Sleep");
+  delay(2000);
+  lcd.clear();
+  lcd.print("System in Sleep");
+}
+```
+
+4. **Activation Button Handling**
+```cpp
+void handleActivationButton() {
+  if (digitalRead(ACTIVATION_BUTTON) == LOW) {
+    lcd.clear();
+    lcd.print("Reactivating...");
+    delay(5000); // Simulate delay
+    currentState = IDLE;
+    lcd.clear();
+    lcd.print("System Ready");
+  }
+}
+```
