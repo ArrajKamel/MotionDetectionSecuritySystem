@@ -29,25 +29,24 @@ The **Motion Detection Security System** is an Arduino-based project designed to
 
 ### Hardware Connections  
 1. **Sharp Sensor**:  
-   - Signal pin → `coming soon`  
-   - VCC → `coming soon`  
-   - GND → `coming soon`  
+   - Signal pin → `A15`  
+   - VCC → `5v`  
+   - Ground → `GND`  
 
 2. **4x4 Keypad**:  
-   - Row pins → Digital pins `coming soon`  
-   - Column pins → Digital pins `coming soon`  
+   - Row pins → Digital pins `{A0, A1, A2, A3}`  
+   - Column pins → Digital pins `{A4, A5, A7, A8}`  
 
-3. **LCD with I2C**:  
-   - SDA → `coming soon`  
-   - SCL → `coming soon`  
+3. **LCD with I2C**:
+   - LCD shield is used. 
 
-4. **Buzzer and LED**:  
-   - Buzzer pin → `coming soon`  
-   - LED pin → `coming soon`  
+5. **Buzzer and LED**:  
+   - Buzzer pin → `25`  
+   - LED pin → `26`  
 
-5. **Activation Button**:  
-   - One side → `coming soon`  
-   - Other side → `coming soon`  
+6. **Activation Button**:  
+   - One side → `33`  
+   - Ground → `GND`   
 
 ---
 
@@ -172,6 +171,5 @@ void handleActivationButton() {
 ---
 
 ## 📫 Let’s Collaborate
-
 Feel free to fork this repository or submit a pull request to improve or expand this project. Let’s build something great together!
----
+
