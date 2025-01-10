@@ -72,7 +72,7 @@ The system is governed by a Finite State Machine with the following states:
 
 ## 📊 FSM Diagram
 
-![FSM Diagram](FSMDiagram.png)
+![FSM Diagram](resources/FSMDiagram.png)
 
 
 ---
