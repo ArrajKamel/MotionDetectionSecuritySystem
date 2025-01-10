@@ -1,10 +1,3 @@
-Home Security Dashboard
-Components:
-
-Sharp 2D120x infrared distance sensor
-ESP32 Wi-Fi module + bluetooth module 
-NeoPixel LED Strips
-PmodKYPD
 
 Program flow :
 

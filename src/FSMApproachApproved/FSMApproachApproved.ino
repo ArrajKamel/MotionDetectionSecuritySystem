@@ -4,30 +4,31 @@
 
 
 // Pin Definitions
-#define SHARP_SENSOR_PIN A0
+#define SHARP_SENSOR_PIN A15
 #define BUZZER_PIN 25
 #define RED_LED_PIN 26
 #define ACTIVATION_BUTTON 33
 
 // Constants
-#define TIMER_DURATION 10000 // 10 seconds
-#define ALARM_AUTO_STOP_TIME 300000 // 5 minutes
-#define REACTIVATION_DELAY 300000 // 5 minutes
+#define TIMER_DURATION 10000 // 10 seconds (asstimated time for the owneer to input the password)
+#define ALARM_AUTO_STOP_TIME 300000 // 5 minutes (the alarm will keep ringing for five minutes maximum in case no password introduced)
+#define REACTIVATION_DELAY 300000 // 5 minuts (the systme will be ready after five minutes of user turning it on which is the ustimated time for the user to empty the place) 
 
 // FSM States
 enum State {
-  IDLE,
+  IDLES,
   TIMER_ON,
   ALARM_ACTIV,
   SLEEP
 };
-State currentState = IDLE;
+
+State currentState = IDLES;
 
 
 unsigned long timerStartTime = 0;
 unsigned long alarmStartTime = 0;
 bool motionDetected = false;
-String correctPassword = "1234"; // Set your password here
+String correctPassword = "1111"; // Set your password here
 String enteredPassword = "";
 
 LiquidCrystal lcd(7, 6, 5, 4, 3, 2);
@@ -45,6 +46,7 @@ byte colPins[COLS] = {A4, A5, A7, A8}; //column pins of the keypad (c4 -> pin(A4
 Keypad keypad = Keypad(makeKeymap(keys), rowPins, colPins, ROWS, COLS);
 
 void setup() {
+  Serial.begin(9600);
   pinMode(SHARP_SENSOR_PIN, INPUT);
   pinMode(BUZZER_PIN, OUTPUT);
   pinMode(RED_LED_PIN, OUTPUT);
@@ -53,12 +55,13 @@ void setup() {
   lcd.begin(16, 2);
   lcd.setCursor(0,0);
   lcd.print("System Ready");
+  delay(1000);
 }
 
 void loop() {
   switch (currentState) {
-    case IDLE:
-      handleIdleState();
+    case IDLES:
+      handleIDLESState();
       break;
 
     case TIMER_ON:
@@ -75,13 +78,18 @@ void loop() {
   }
 }
 
-void handleIdleState() {
+void handleIDLESState() {
   // int sharpValue = analogRead(SHARP_SENSOR_PIN);
   // motionDetected = (sharpValue > 300 && sharpValue < 700); // Adjust range based on sensor
 
-  float volts = analogRead(sensor)*0.0048828125;  // value from sensor * (5/1024)
+  float volts = analogRead(SHARP_SENSOR_PIN)*0.0048828125;  // value from sensor * (5/1024)
   int distance = 13 * pow(volts, -1); // worked out from datasheet graph
+  Serial.print("Current distance: ");
+  Serial.print(distance);
+  Serial.println(" cm");
+  delay(200);
   motionDetected = (distance < 7);
+
 
   if (motionDetected) {
     currentState = TIMER_ON;
@@ -96,7 +104,8 @@ void handleTimerOnState() {
   motionDetected = (sharpValue > 300 && sharpValue < 700);
 
   if (!motionDetected) {
-    currentState = IDLE;
+    currentState = IDLES;
+    enteredPassword ="";
     lcd.clear();
     lcd.print("System Ready");
     return;
@@ -109,6 +118,7 @@ void handleTimerOnState() {
     lcd.print(enteredPassword);
 
     if (enteredPassword.length() == correctPassword.length()) {
+      delay(500);
       if (enteredPassword == correctPassword) {
         currentState = SLEEP;
         enterSleepMode();
@@ -151,7 +161,7 @@ void handleAlarmActivState() {
   }
 
   if (millis() - alarmStartTime > ALARM_AUTO_STOP_TIME) {
-    currentState = IDLE;
+    currentState = IDLES;
     stopAlarm();
     lcd.print("System Ready");
   }
@@ -164,7 +174,7 @@ void handleSleepState() {
     lcd.clear();
     lcd.print("Reactivating...");
     delay(REACTIVATION_DELAY); // reactivate the system after five minits 
-    currentState = IDLE;
+    currentState = IDLES;
     lcd.clear();
     lcd.print("System Ready");
   }
