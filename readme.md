@@ -46,7 +46,14 @@ The **Motion Detection Security System** is an Arduino-based project designed to
 
 6. **Activation Button**:  
    - One side → `33`  
-   - Ground → `GND`   
+   - Ground → `GND`
+
+## Schema 
+
+![schema](resources/schema.png)
+### note 
+   - consider the Sharp Sensor instead of the Ultrasonic Distance Sensor.
+
 
 ---
 
